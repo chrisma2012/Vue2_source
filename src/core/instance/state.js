@@ -36,6 +36,7 @@ const sharedPropertyDefinition = {
   set: noop
 }
 
+//将data代理到vm实例上
 export function proxy (target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter () {
     return this[sourceKey][key]

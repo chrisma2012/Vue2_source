@@ -69,7 +69,8 @@ export function initMixin(Vue: Class<Component>) {
       mark(endTag)
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
-
+    
+    //如果new Vue()的参数里存在el，则开始挂载操作
     if (vm.$options.el) {
       //挂载
       vm.$mount(vm.$options.el)
