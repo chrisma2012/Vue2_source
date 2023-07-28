@@ -20,7 +20,7 @@ export function initRender (vm: Component) {
   vm._vnode = null // the root of the child tree
   vm._staticTrees = null // v-once cached trees
   const options = vm.$options
-  const parentVnode = vm.$vnode = options._parentVnode // the placeholder node in parent tree
+  const parentVnode = vm.$vnode = options._parentVnode // the placeholder node in parent tree 父亲树上的占位节点
   const renderContext = parentVnode && parentVnode.context
   vm.$slots = resolveSlots(options._renderChildren, renderContext)
   vm.$scopedSlots = emptyObject
@@ -108,7 +108,7 @@ export function renderMixin (Vue: Class<Component>) {
       currentRenderingInstance = null
     }
     // if the returned array contains only a single node, allow it
-    if (Array.isArray(vnode) && vnode.length === 1) {
+    if (Array.isArray(vnode) && vnfode.length === 1) {
       vnode = vnode[0]
     }
     // return empty vnode in case the render function errored out

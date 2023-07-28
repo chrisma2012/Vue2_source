@@ -34,6 +34,9 @@ export function initMixin(Vue: Class<Component>) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
       // internal component options needs special treatment.
+      // 优化内部组件实例化
+      // 因为动态选项合并非常慢，并且没有一个
+      // 内部组件选项需要特殊处理。
       initInternalComponent(vm, options)
     } else {
       vm.$options = mergeOptions(
@@ -50,8 +53,9 @@ export function initMixin(Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
-    initLifecycle(vm)
+    initLifecycle(vm) 
     initEvents(vm)
+    //初始化render阶段需要使用的环境，此处并没有进行vode生成、挂载
     initRender(vm)
     callHook(vm, 'beforeCreate')
     initInjections(vm) // resolve injections before data/props
@@ -67,6 +71,7 @@ export function initMixin(Vue: Class<Component>) {
     }
 
     if (vm.$options.el) {
+      //挂载
       vm.$mount(vm.$options.el)
     }
   }
