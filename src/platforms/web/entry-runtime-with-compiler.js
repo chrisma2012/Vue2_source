@@ -29,8 +29,11 @@ Vue.prototype.$mount = function (
     return this
   }
 
+  // 将this.$options的指针指向options，后续修改options也就相当于是修改this.$options了。
   const options = this.$options
   // resolve template/el and convert to render function
+  // runtime+compiler执行方式，亦即编译template模板。如果是runtime only方式，因为模板
+    //  已经是render函数形式，所以不存在template模板，也就没有编译模板成render之说
   if (!options.render) {
     let template = options.template
     if (template) {
@@ -53,7 +56,7 @@ Vue.prototype.$mount = function (
         }
         return this
       }
-    } else if (el) {
+    } else if (el) { //如果el有定义，则取el外部的html文本
       template = getOuterHTML(el)
     }
     if (template) {
@@ -62,6 +65,8 @@ Vue.prototype.$mount = function (
         mark('compile')
       }
 
+      // 上面一堆的if else主要是为了得到要编译的template
+      // 然后这里再将template模板编译成render函数
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
@@ -69,6 +74,7 @@ Vue.prototype.$mount = function (
         delimiters: options.delimiters,
         comments: options.comments
       }, this)
+      // 最终目的是将template模板编译成render函数，然后提供给mount挂载操作上使用
       options.render = render
       options.staticRenderFns = staticRenderFns
 
@@ -79,6 +85,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 无论是template模板还是手写render函数最终调用缓存的$mount方法
   return mount.call(this, el, hydrating)
 }
 
@@ -86,7 +93,7 @@ Vue.prototype.$mount = function (
  * Get outerHTML of elements, taking care
  * of SVG elements in IE as well.
  */
-function getOuterHTML (el: Element): string {
+function getOuterHTML(el: Element): string {
   if (el.outerHTML) {
     return el.outerHTML
   } else {

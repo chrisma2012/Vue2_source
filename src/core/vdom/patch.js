@@ -67,6 +67,7 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
   return map
 }
 
+//生成新旧节点对比patch函数
 export function createPatchFunction (backend) {
   let i, j
   const cbs = {}
@@ -593,6 +594,7 @@ export function createPatchFunction (backend) {
   const isRenderedModule = makeMap('attrs,class,staticClass,staticStyle,key')
 
   // Note: this is a browser-only function so we can assume elms are DOM nodes.
+  // 这个是浏览器专用的方法，所以这里我们假设元素都是DOM节点
   function hydrate (elm, vnode, insertedVnodeQueue, inVPre) {
     let i
     const { tag, data, children } = vnode
@@ -697,7 +699,9 @@ export function createPatchFunction (backend) {
     }
   }
 
+  //返回patch方法
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    //如果新节点未定义，但是存在旧节点，则销毁就节点再退出。
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
       return

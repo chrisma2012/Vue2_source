@@ -65,7 +65,7 @@ export function renderMixin (Vue: Class<Component>) {
   Vue.prototype.$nextTick = function (fn: Function) {
     return nextTick(fn, this)
   }
-
+  //生成虚拟DOM节点
   Vue.prototype._render = function (): VNode {
     const vm: Component = this
     const { render, _parentVnode } = vm.$options
@@ -88,6 +88,10 @@ export function renderMixin (Vue: Class<Component>) {
       // separately from one another. Nested component's render fns are called
       // when parent component is patched.
       currentRenderingInstance = vm
+      // vnode = render.call(vm._renderProxy, vm.$createElement);的主体是render函数，
+      // 而这个render函数就是包装成with的执行语句,在执行with语句的过程中，
+      // 该作用域下变量的访问都会触发has钩子，这也是模板渲染时之所有会触发代
+      // 理拦截的原因。
       vnode = render.call(vm._renderProxy, vm.$createElement)
     } catch (e) {
       handleError(e, vm, `render`)

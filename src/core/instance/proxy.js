@@ -52,6 +52,9 @@ if (process.env.NODE_ENV !== 'production') {
     })
   }
 
+  // hasHandler函数定义了has的钩子,因为proxy的钩子有13个之多，
+  // 而has是其中一个，它用来拦截propKey in proxy的操作，返回一个布尔值。
+  // 而除了拦截 in 操作符外，has钩子同样可以用来拦截with语句下的作用对象。
   const hasHandler = {
     has (target, key) {
       const has = key in target

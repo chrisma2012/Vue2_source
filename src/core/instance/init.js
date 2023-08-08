@@ -47,6 +47,9 @@ export function initMixin(Vue: Class<Component>) {
     }
     /* istanbul ignore else */
     if (process.env.NODE_ENV !== 'production') {
+      //用vm._renderProxy 代理vm。其中_renderProxy会在Vue.prototype._render函数定义中用到。
+      //    // 调用vm._renderProxy
+    // vnode = render.call(vm._renderProxy, vm.$createElement);
       initProxy(vm)
     } else {
       vm._renderProxy = vm
