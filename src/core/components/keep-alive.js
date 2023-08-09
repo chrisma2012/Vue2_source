@@ -63,7 +63,7 @@ const patternTypes: Array<Function> = [String, RegExp, Array]
 //导出的格式为标准的vue组件格式。即keep-alive组件
 export default {
   name: 'keep-alive',
-  abstract: true,
+  abstract: true, //抽象组件，不会被渲染到真实DOM中，也不会出现在父组件链中。
 
   props: {
     include: patternTypes,

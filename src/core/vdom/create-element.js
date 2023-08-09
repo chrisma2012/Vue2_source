@@ -33,6 +33,7 @@ export function createElement (
   normalizationType: any,
   alwaysNormalize: boolean
 ): VNode | Array<VNode> {
+  // 如果data是数组或者是原始基础数据类型，则将传参顺序一次往后调整一位，最后将data置为undefined
   if (Array.isArray(data) || isPrimitive(data)) {
     normalizationType = children
     children = data
@@ -51,6 +52,7 @@ export function _createElement (
   children?: any,
   normalizationType?: number
 ): VNode | Array<VNode> {
+  // 判断data是否为被observed的数据
   if (isDef(data) && isDef((data: any).__ob__)) {
     process.env.NODE_ENV !== 'production' && warn(
       `Avoid using observed data object as vnode data: ${JSON.stringify(data)}\n` +
@@ -60,6 +62,7 @@ export function _createElement (
     return createEmptyVNode()
   }
   // object syntax in v-bind
+  // vue的指令is，动态组件，如果存在优先使用is指定的标签值
   if (isDef(data) && isDef(data.is)) {
     tag = data.is
   }
@@ -68,6 +71,7 @@ export function _createElement (
     return createEmptyVNode()
   }
   // warn against non-primitive key
+  // 是否原始基础类型
   if (process.env.NODE_ENV !== 'production' &&
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
@@ -97,6 +101,7 @@ export function _createElement (
     let Ctor
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag)
     if (config.isReservedTag(tag)) {
+      // html自带标签
       // platform built-in elements
       if (process.env.NODE_ENV !== 'production' && isDef(data) && isDef(data.nativeOn) && data.tag !== 'component') {
         warn(
@@ -109,6 +114,7 @@ export function _createElement (
         undefined, undefined, context
       )
     } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
+      // 组件名创建组件
       // component
       vnode = createComponent(Ctor, data, context, children, tag)
     } else {
@@ -122,6 +128,7 @@ export function _createElement (
     }
   } else {
     // direct component options / constructor
+    // 创建组件
     vnode = createComponent(tag, data, context, children)
   }
   if (Array.isArray(vnode)) {
