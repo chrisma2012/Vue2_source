@@ -48,6 +48,7 @@ export function generate (
   // fix #11483, Root level <script> tags should not be rendered.
   // 注意下述的_c("div")就是vnode节点的创建了。参考render.js文件内的  
   // vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false)
+
   const code = ast ? (ast.tag === 'script' ? 'null' : genElement(ast, state)) : '_c("div")'
   return {
     render: `with(this){return ${code}}`,
