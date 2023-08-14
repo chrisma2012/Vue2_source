@@ -165,16 +165,20 @@ export function defineReactive(
     val = obj[key]
   }
 
-  let childOb = !shallow && observe(val) //不是浅监听,递归遍历监听所有子对象/数组
+  //不是浅监听,递归遍历监听所有子对象/数组,并且返回该Observer实例，如果是浅监听否则false
+  let childOb = !shallow && observe(val) 
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter() {
+      // 如果有getter方法(computed方法？)，则调用getter获取结果，没有的话返回obj[key]值val
       const value = getter ? getter.call(obj) : val
       //插入收集依赖代码
       if (Dep.target) {
+        // Object.defineProperty内创建的Dep实例收集watcher依赖
         dep.depend()
         if (childOb) {
+          // val对应的Observer实例内的dep属性收集watcher依赖
           childOb.dep.depend()
           //如果是数组，则递归遍历数组下的所有元素，进行依赖收集  
           if (Array.isArray(value)) {
