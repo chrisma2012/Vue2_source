@@ -125,6 +125,7 @@ export default class Watcher {
     let value
     const vm = this.vm
     try {
+      //此处执行时，Observer实例的dep会收集到当前watcher实例this
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {
